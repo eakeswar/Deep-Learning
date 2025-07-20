@@ -1,0 +1,1210 @@
+\documentclass[11pt]{article}
+
+    \usepackage[breakable]{tcolorbox}
+    \usepackage{parskip} % Stop auto-indenting (to mimic markdown behaviour)
+    
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % Keep aspect ratio if custom image width or height is specified
+    \setkeys{Gin}{keepaspectratio}
+    % Maintain compatibility with old templates. Remove in nbconvert 6.0
+    \let\Oldincludegraphics\includegraphics
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionFormat{nocaption}{}
+    \captionsetup{format=nocaption,aboveskip=0pt,belowskip=0pt}
+
+    \usepackage{float}
+    \floatplacement{figure}{H} % forces figures to be placed at the correct location
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+
+    \usepackage{iftex}
+    \ifPDFTeX
+        \usepackage[T1]{fontenc}
+        \IfFileExists{alphabeta.sty}{
+              \usepackage{alphabeta}
+          }{
+              \usepackage[mathletters]{ucs}
+              \usepackage[utf8x]{inputenc}
+          }
+    \else
+        \usepackage{fontspec}
+        \usepackage{unicode-math}
+        \setmainfont{Arial}
+    \fi
+
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics
+                         % to support a larger range
+    \makeatletter % fix for old versions of grffile with XeLaTeX
+    \@ifpackagelater{grffile}{2019/11/01}
+    {
+      % Do nothing on new versions
+    }
+    {
+      \def\Gread@@xetex#1{%
+        \IfFileExists{"\Gin@base".bb}%
+        {\Gread@eps{\Gin@base.bb}}%
+        {\Gread@@xetex@aux#1}%
+      }
+    }
+    \makeatother
+    \usepackage[Export]{adjustbox} % Used to constrain images to a maximum size
+    \adjustboxset{max size={0.9\linewidth}{0.9\paperheight}}
+
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    % The default LaTeX title has an obnoxious amount of whitespace. By default,
+    % titling removes some of it. It also provides customization options.
+    \usepackage{titling}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage{array}     % table support for pandoc >= 2.11.3
+    \usepackage{calc}      % table minipage width calculation for pandoc >= 2.11.1
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    \usepackage{soul}      % strikethrough (\st) support for pandoc >= 3.0.0
+    \usepackage{mathrsfs}
+    
+
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+    \definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
+    \definecolor{ansi-default-inverse-bg}{HTML}{000000}
+
+    % common color for the border for error outputs.
+    \definecolor{outerrorbackground}{HTML}{FFDFDF}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \makeatletter
+    \newsavebox\pandoc@box
+    \newcommand*\pandocbounded[1]{%
+      \sbox\pandoc@box{#1}%
+      % scaling factors for width and height
+      \Gscale@div\@tempa\textheight{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+      \Gscale@div\@tempb\linewidth{\wd\pandoc@box}%
+      % select the smaller of both
+      \ifdim\@tempb\p@<\@tempa\p@
+        \let\@tempa\@tempb
+      \fi
+      % scaling accordingly (\@tempa < 1)
+      \ifdim\@tempa\p@<\p@
+        \scalebox{\@tempa}{\usebox\pandoc@box}%
+      % scaling not needed, use as it is
+      \else
+        \usebox{\pandoc@box}%
+      \fi
+    }
+    \makeatother
+
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatibility definitions
+    \def\gt{>}
+    \def\lt{<}
+    \let\Oldtex\TeX
+    \let\Oldlatex\LaTeX
+    \renewcommand{\TeX}{\textrm{\Oldtex}}
+    \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
+    % Document parameters
+    % Document title
+    \title{lab 2A}
+    
+    
+    
+    
+    
+    
+    
+% Pygments definitions
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\@namedef{PY@tok@w}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\@namedef{PY@tok@c}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cp}{\def\PY@tc##1{\textcolor[rgb]{0.61,0.40,0.00}{##1}}}
+\@namedef{PY@tok@k}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kt}{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\@namedef{PY@tok@o}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ow}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@nb}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nf}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@ne}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.80,0.25,0.22}{##1}}}
+\@namedef{PY@tok@nv}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@no}{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\@namedef{PY@tok@nl}{\def\PY@tc##1{\textcolor[rgb]{0.46,0.46,0.00}{##1}}}
+\@namedef{PY@tok@ni}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@na}{\def\PY@tc##1{\textcolor[rgb]{0.41,0.47,0.13}{##1}}}
+\@namedef{PY@tok@nt}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nd}{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@s}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sd}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@si}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@se}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.36,0.12}{##1}}}
+\@namedef{PY@tok@sr}{\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@ss}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sx}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@m}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@gh}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gu}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gd}{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\@namedef{PY@tok@gi}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.52,0.00}{##1}}}
+\@namedef{PY@tok@gr}{\def\PY@tc##1{\textcolor[rgb]{0.89,0.00,0.00}{##1}}}
+\@namedef{PY@tok@ge}{\let\PY@it=\textit}
+\@namedef{PY@tok@gs}{\let\PY@bf=\textbf}
+\@namedef{PY@tok@ges}{\let\PY@bf=\textbf\let\PY@it=\textit}
+\@namedef{PY@tok@gp}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@go}{\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@gt}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\@namedef{PY@tok@err}{\def\PY@bc##1{{\setlength{\fboxsep}{\string -\fboxrule}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}}
+\@namedef{PY@tok@kc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kd}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kr}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@bp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@fm}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@vc}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vg}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vi}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vm}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sa}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sb}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sc}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@dl}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s2}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sh}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s1}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@mb}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mf}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mh}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mi}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@il}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mo}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ch}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cm}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cpf}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@c1}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cs}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % For linebreaks inside Verbatim environment from package fancyvrb.
+    \makeatletter
+        \newbox\Wrappedcontinuationbox
+        \newbox\Wrappedvisiblespacebox
+        \newcommand*\Wrappedvisiblespace {\textcolor{red}{\textvisiblespace}}
+        \newcommand*\Wrappedcontinuationsymbol {\textcolor{red}{\llap{\tiny$\m@th\hookrightarrow$}}}
+        \newcommand*\Wrappedcontinuationindent {3ex }
+        \newcommand*\Wrappedafterbreak {\kern\Wrappedcontinuationindent\copy\Wrappedcontinuationbox}
+        % Take advantage of the already applied Pygments mark-up to insert
+        % potential linebreaks for TeX processing.
+        %        {, <, #, %, $, ' and ": go to next line.
+        %        _, }, ^, &, >, - and ~: stay at end of broken line.
+        % Use of \textquotesingle for straight quote.
+        \newcommand*\Wrappedbreaksatspecials {%
+            \def\PYGZus{\discretionary{\char`\_}{\Wrappedafterbreak}{\char`\_}}%
+            \def\PYGZob{\discretionary{}{\Wrappedafterbreak\char`\{}{\char`\{}}%
+            \def\PYGZcb{\discretionary{\char`\}}{\Wrappedafterbreak}{\char`\}}}%
+            \def\PYGZca{\discretionary{\char`\^}{\Wrappedafterbreak}{\char`\^}}%
+            \def\PYGZam{\discretionary{\char`\&}{\Wrappedafterbreak}{\char`\&}}%
+            \def\PYGZlt{\discretionary{}{\Wrappedafterbreak\char`\<}{\char`\<}}%
+            \def\PYGZgt{\discretionary{\char`\>}{\Wrappedafterbreak}{\char`\>}}%
+            \def\PYGZsh{\discretionary{}{\Wrappedafterbreak\char`\#}{\char`\#}}%
+            \def\PYGZpc{\discretionary{}{\Wrappedafterbreak\char`\%}{\char`\%}}%
+            \def\PYGZdl{\discretionary{}{\Wrappedafterbreak\char`\$}{\char`\$}}%
+            \def\PYGZhy{\discretionary{\char`\-}{\Wrappedafterbreak}{\char`\-}}%
+            \def\PYGZsq{\discretionary{}{\Wrappedafterbreak\textquotesingle}{\textquotesingle}}%
+            \def\PYGZdq{\discretionary{}{\Wrappedafterbreak\char`\"}{\char`\"}}%
+            \def\PYGZti{\discretionary{\char`\~}{\Wrappedafterbreak}{\char`\~}}%
+        }
+        % Some characters . , ; ? ! / are not pygmentized.
+        % This macro makes them "active" and they will insert potential linebreaks
+        \newcommand*\Wrappedbreaksatpunct {%
+            \lccode`\~`\.\lowercase{\def~}{\discretionary{\hbox{\char`\.}}{\Wrappedafterbreak}{\hbox{\char`\.}}}%
+            \lccode`\~`\,\lowercase{\def~}{\discretionary{\hbox{\char`\,}}{\Wrappedafterbreak}{\hbox{\char`\,}}}%
+            \lccode`\~`\;\lowercase{\def~}{\discretionary{\hbox{\char`\;}}{\Wrappedafterbreak}{\hbox{\char`\;}}}%
+            \lccode`\~`\:\lowercase{\def~}{\discretionary{\hbox{\char`\:}}{\Wrappedafterbreak}{\hbox{\char`\:}}}%
+            \lccode`\~`\?\lowercase{\def~}{\discretionary{\hbox{\char`\?}}{\Wrappedafterbreak}{\hbox{\char`\?}}}%
+            \lccode`\~`\!\lowercase{\def~}{\discretionary{\hbox{\char`\!}}{\Wrappedafterbreak}{\hbox{\char`\!}}}%
+            \lccode`\~`\/\lowercase{\def~}{\discretionary{\hbox{\char`\/}}{\Wrappedafterbreak}{\hbox{\char`\/}}}%
+            \catcode`\.\active
+            \catcode`\,\active
+            \catcode`\;\active
+            \catcode`\:\active
+            \catcode`\?\active
+            \catcode`\!\active
+            \catcode`\/\active
+            \lccode`\~`\~
+        }
+    \makeatother
+
+    \let\OriginalVerbatim=\Verbatim
+    \makeatletter
+    \renewcommand{\Verbatim}[1][1]{%
+        %\parskip\z@skip
+        \sbox\Wrappedcontinuationbox {\Wrappedcontinuationsymbol}%
+        \sbox\Wrappedvisiblespacebox {\FV@SetupFont\Wrappedvisiblespace}%
+        \def\FancyVerbFormatLine ##1{\hsize\linewidth
+            \vtop{\raggedright\hyphenpenalty\z@\exhyphenpenalty\z@
+                \doublehyphendemerits\z@\finalhyphendemerits\z@
+                \strut ##1\strut}%
+        }%
+        % If the linebreak is at a space, the latter will be displayed as visible
+        % space at end of first line, and a continuation symbol starts next line.
+        % Stretch/shrink are however usually zero for typewriter font.
+        \def\FV@Space {%
+            \nobreak\hskip\z@ plus\fontdimen3\font minus\fontdimen4\font
+            \discretionary{\copy\Wrappedvisiblespacebox}{\Wrappedafterbreak}
+            {\kern\fontdimen2\font}%
+        }%
+
+        % Allow breaks at special characters using \PYG... macros.
+        \Wrappedbreaksatspecials
+        % Breaks at punctuation characters . , ; ? ! and / need catcode=\active
+        \OriginalVerbatim[#1,codes*=\Wrappedbreaksatpunct]%
+    }
+    \makeatother
+
+    % Exact colors from NB
+    \definecolor{incolor}{HTML}{303F9F}
+    \definecolor{outcolor}{HTML}{D84315}
+    \definecolor{cellborder}{HTML}{CFCFCF}
+    \definecolor{cellbackground}{HTML}{F7F7F7}
+
+    % prompt
+    \makeatletter
+    \newcommand{\boxspacing}{\kern\kvtcb@left@rule\kern\kvtcb@boxsep}
+    \makeatother
+    \newcommand{\prompt}[4]{
+        {\ttfamily\llap{{\color{#2}[#3]:\hspace{3pt}#4}}\vspace{-\baselineskip}}
+    }
+    
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+\begin{document}
+    
+    \maketitle
+    
+    
+
+    
+    \subsection{\texorpdfstring{\textbf{\# Implemetation of ANN without
+regularization}}{\# Implemetation of ANN without regularization}}\label{implemetation-of-ann-without-regularization}
+
+    \subparagraph{\# Loading Dataset}\label{loading-dataset}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{1}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{import} \PY{n+nn}{tensorflow} \PY{k}{as} \PY{n+nn}{tf}
+\PY{k+kn}{from} \PY{n+nn}{tensorflow} \PY{k+kn}{import} \PY{n}{keras}
+\PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+\PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+
+\PY{c+c1}{\PYZsh{} Load the MNIST dataset}
+\PY{p}{(}\PY{n}{x\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{)}\PY{p}{,} \PY{p}{(}\PY{n}{x\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}test}\PY{p}{)} \PY{o}{=} \PY{n}{keras}\PY{o}{.}\PY{n}{datasets}\PY{o}{.}\PY{n}{mnist}\PY{o}{.}\PY{n}{load\PYZus{}data}\PY{p}{(}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Normalize pixel values to the range [0,1]}
+\PY{n}{x\PYZus{}train}\PY{p}{,} \PY{n}{x\PYZus{}test} \PY{o}{=} \PY{n}{x\PYZus{}train} \PY{o}{/} \PY{l+m+mf}{255.0}\PY{p}{,} \PY{n}{x\PYZus{}test} \PY{o}{/} \PY{l+m+mf}{255.0}
+
+\PY{c+c1}{\PYZsh{} Print dataset shapes}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Training data shape: }\PY{l+s+si}{\PYZob{}}\PY{n}{x\PYZus{}train}\PY{o}{.}\PY{n}{shape}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{, Training labels shape: }\PY{l+s+si}{\PYZob{}}\PY{n}{y\PYZus{}train}\PY{o}{.}\PY{n}{shape}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Testing data shape: }\PY{l+s+si}{\PYZob{}}\PY{n}{x\PYZus{}test}\PY{o}{.}\PY{n}{shape}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{, Testing labels shape: }\PY{l+s+si}{\PYZob{}}\PY{n}{y\PYZus{}test}\PY{o}{.}\PY{n}{shape}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Visualizing some training images}
+\PY{n}{fig}\PY{p}{,} \PY{n}{axes} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{5}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{)}\PY{p}{)}
+\PY{k}{for} \PY{n}{i}\PY{p}{,} \PY{n}{ax} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{axes}\PY{p}{)}\PY{p}{:}
+    \PY{n}{ax}\PY{o}{.}\PY{n}{imshow}\PY{p}{(}\PY{n}{x\PYZus{}train}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{,} \PY{n}{cmap}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{gray}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{ax}\PY{o}{.}\PY{n}{axis}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{off}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Training data shape: (60000, 28, 28), Training labels shape: (60000,)
+Testing data shape: (10000, 28, 28), Testing labels shape: (10000,)
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{lab 2A_files/lab 2A_2_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \subparagraph{Baseline Model}\label{baseline-model}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{2}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Define the baseline model}
+\PY{n}{model\PYZus{}baseline} \PY{o}{=} \PY{n}{keras}\PY{o}{.}\PY{n}{Sequential}\PY{p}{(}\PY{p}{[}
+    \PY{n}{keras}\PY{o}{.}\PY{n}{layers}\PY{o}{.}\PY{n}{Flatten}\PY{p}{(}\PY{n}{input\PYZus{}shape}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{28}\PY{p}{,} \PY{l+m+mi}{28}\PY{p}{)}\PY{p}{)}\PY{p}{,}  \PY{c+c1}{\PYZsh{} Flatten the 28x28 images into a 1D array}
+    \PY{n}{keras}\PY{o}{.}\PY{n}{layers}\PY{o}{.}\PY{n}{Dense}\PY{p}{(}\PY{l+m+mi}{128}\PY{p}{,} \PY{n}{activation}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{relu}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{,}  \PY{c+c1}{\PYZsh{} Hidden layer with 128 neurons and ReLU activation}
+    \PY{n}{keras}\PY{o}{.}\PY{n}{layers}\PY{o}{.}\PY{n}{Dense}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,} \PY{n}{activation}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{softmax}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}  \PY{c+c1}{\PYZsh{} Output layer with 10 neurons (for 10 classes)}
+\PY{p}{]}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Compile the model}
+\PY{n}{model\PYZus{}baseline}\PY{o}{.}\PY{n}{compile}\PY{p}{(}
+    \PY{n}{optimizer}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{adam}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+    \PY{n}{loss}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{sparse\PYZus{}categorical\PYZus{}crossentropy}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+    \PY{n}{metrics}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{accuracy}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Train the model}
+\PY{n}{history\PYZus{}baseline} \PY{o}{=} \PY{n}{model\PYZus{}baseline}\PY{o}{.}\PY{n}{fit}\PY{p}{(}
+    \PY{n}{x\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{,}
+    \PY{n}{epochs}\PY{o}{=}\PY{l+m+mi}{10}\PY{p}{,}
+    \PY{n}{validation\PYZus{}data}\PY{o}{=}\PY{p}{(}\PY{n}{x\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}test}\PY{p}{)}\PY{p}{,}
+    \PY{n}{batch\PYZus{}size}\PY{o}{=}\PY{l+m+mi}{32}
+\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Evaluate the model on test data}
+\PY{n}{test\PYZus{}loss}\PY{p}{,} \PY{n}{test\PYZus{}acc} \PY{o}{=} \PY{n}{model\PYZus{}baseline}\PY{o}{.}\PY{n}{evaluate}\PY{p}{(}\PY{n}{x\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}test}\PY{p}{,} \PY{n}{verbose}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Print test accuracy}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Test accuracy of baseline model: }\PY{l+s+si}{\PYZob{}}\PY{n}{test\PYZus{}acc}\PY{l+s+si}{:}\PY{l+s+s2}{.4f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+c:\textbackslash{}Users\textbackslash{}eakes\textbackslash{}AppData\textbackslash{}Local\textbackslash{}Programs\textbackslash{}Python\textbackslash{}Python311\textbackslash{}Lib\textbackslash{}site-
+packages\textbackslash{}keras\textbackslash{}src\textbackslash{}layers\textbackslash{}reshaping\textbackslash{}flatten.py:37: UserWarning: Do not pass an
+`input\_shape`/`input\_dim` argument to a layer. When using Sequential models,
+prefer using an `Input(shape)` object as the first layer in the model instead.
+  super().\_\_init\_\_(**kwargs)
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Epoch 1/10
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{4s} 2ms/step -
+accuracy: 0.8779 - loss: 0.4366 - val\_accuracy: 0.9592 - val\_loss: 0.1386
+Epoch 2/10
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{3s} 1ms/step -
+accuracy: 0.9633 - loss: 0.1255 - val\_accuracy: 0.9674 - val\_loss: 0.1049
+Epoch 3/10
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{3s} 1ms/step -
+accuracy: 0.9746 - loss: 0.0821 - val\_accuracy: 0.9738 - val\_loss: 0.0875
+Epoch 4/10
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{3s} 1ms/step -
+accuracy: 0.9825 - loss: 0.0572 - val\_accuracy: 0.9743 - val\_loss: 0.0791
+Epoch 5/10
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{3s} 1ms/step -
+accuracy: 0.9874 - loss: 0.0421 - val\_accuracy: 0.9753 - val\_loss: 0.0765
+Epoch 6/10
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{3s} 1ms/step -
+accuracy: 0.9897 - loss: 0.0324 - val\_accuracy: 0.9760 - val\_loss: 0.0823
+Epoch 7/10
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{3s} 1ms/step -
+accuracy: 0.9916 - loss: 0.0279 - val\_accuracy: 0.9791 - val\_loss: 0.0685
+Epoch 8/10
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{3s} 1ms/step -
+accuracy: 0.9933 - loss: 0.0217 - val\_accuracy: 0.9788 - val\_loss: 0.0719
+Epoch 9/10
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{3s} 1ms/step -
+accuracy: 0.9953 - loss: 0.0164 - val\_accuracy: 0.9793 - val\_loss: 0.0739
+Epoch 10/10
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{3s} 1ms/step -
+accuracy: 0.9961 - loss: 0.0141 - val\_accuracy: 0.9740 - val\_loss: 0.0982
+313/313 - 0s - 1ms/step - accuracy: 0.9740 - loss: 0.0982
+Test accuracy of baseline model: 0.9740
+    \end{Verbatim}
+
+    \subparagraph{L1 and L2 Regularization}\label{l1-and-l2-regularization}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{3}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Import regularization functions}
+\PY{k+kn}{from} \PY{n+nn}{tensorflow}\PY{n+nn}{.}\PY{n+nn}{keras}\PY{n+nn}{.}\PY{n+nn}{regularizers} \PY{k+kn}{import} \PY{n}{l1}\PY{p}{,} \PY{n}{l2}
+
+\PY{c+c1}{\PYZsh{} Define the model with L1 regularization}
+\PY{n}{model\PYZus{}l1\PYZus{}l2} \PY{o}{=} \PY{n}{keras}\PY{o}{.}\PY{n}{Sequential}\PY{p}{(}\PY{p}{[}
+    \PY{n}{keras}\PY{o}{.}\PY{n}{layers}\PY{o}{.}\PY{n}{Flatten}\PY{p}{(}\PY{n}{input\PYZus{}shape}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{28}\PY{p}{,} \PY{l+m+mi}{28}\PY{p}{)}\PY{p}{)}\PY{p}{,}  \PY{c+c1}{\PYZsh{} Flatten the 28x28 images into a 1D array}
+    \PY{n}{keras}\PY{o}{.}\PY{n}{layers}\PY{o}{.}\PY{n}{Dense}\PY{p}{(}\PY{l+m+mi}{128}\PY{p}{,} \PY{n}{activation}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{relu}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{kernel\PYZus{}regularizer}\PY{o}{=}\PY{n}{l1}\PY{p}{(}\PY{l+m+mf}{0.01}\PY{p}{)}\PY{p}{)}\PY{p}{,}  \PY{c+c1}{\PYZsh{} L1 regularization}
+    \PY{n}{keras}\PY{o}{.}\PY{n}{layers}\PY{o}{.}\PY{n}{Dense}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,} \PY{n}{activation}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{softmax}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}  \PY{c+c1}{\PYZsh{} Output layer with 10 neurons (for 10 classes)}
+\PY{p}{]}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Compile the model}
+\PY{n}{model\PYZus{}l1\PYZus{}l2}\PY{o}{.}\PY{n}{compile}\PY{p}{(}
+    \PY{n}{optimizer}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{adam}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+    \PY{n}{loss}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{sparse\PYZus{}categorical\PYZus{}crossentropy}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+    \PY{n}{metrics}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{accuracy}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Train the model}
+\PY{n}{history\PYZus{}l1\PYZus{}l2} \PY{o}{=} \PY{n}{model\PYZus{}l1\PYZus{}l2}\PY{o}{.}\PY{n}{fit}\PY{p}{(}
+    \PY{n}{x\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{,}
+    \PY{n}{epochs}\PY{o}{=}\PY{l+m+mi}{10}\PY{p}{,}
+    \PY{n}{validation\PYZus{}data}\PY{o}{=}\PY{p}{(}\PY{n}{x\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}test}\PY{p}{)}\PY{p}{,}
+    \PY{n}{batch\PYZus{}size}\PY{o}{=}\PY{l+m+mi}{32}
+\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Evaluate the model on test data}
+\PY{n}{test\PYZus{}loss\PYZus{}l1\PYZus{}l2}\PY{p}{,} \PY{n}{test\PYZus{}acc\PYZus{}l1\PYZus{}l2} \PY{o}{=} \PY{n}{model\PYZus{}l1\PYZus{}l2}\PY{o}{.}\PY{n}{evaluate}\PY{p}{(}\PY{n}{x\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}test}\PY{p}{,} \PY{n}{verbose}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Print test accuracy}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Test accuracy with L1 regularization: }\PY{l+s+si}{\PYZob{}}\PY{n}{test\PYZus{}acc\PYZus{}l1\PYZus{}l2}\PY{l+s+si}{:}\PY{l+s+s2}{.4f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Epoch 1/10
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{4s} 2ms/step -
+accuracy: 0.7738 - loss: 4.9877 - val\_accuracy: 0.8507 - val\_loss: 1.1948
+Epoch 2/10
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{3s} 2ms/step -
+accuracy: 0.8513 - loss: 1.1644 - val\_accuracy: 0.8709 - val\_loss: 1.0463
+Epoch 3/10
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{7s} 4ms/step -
+accuracy: 0.8596 - loss: 1.0672 - val\_accuracy: 0.8583 - val\_loss: 1.0237
+Epoch 4/10
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{8s} 4ms/step -
+accuracy: 0.8665 - loss: 1.0069 - val\_accuracy: 0.8692 - val\_loss: 0.9892
+Epoch 5/10
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{7s} 4ms/step -
+accuracy: 0.8695 - loss: 0.9780 - val\_accuracy: 0.8780 - val\_loss: 0.9396
+Epoch 6/10
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{7s} 4ms/step -
+accuracy: 0.8702 - loss: 0.9481 - val\_accuracy: 0.8827 - val\_loss: 0.9204
+Epoch 7/10
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{8s} 4ms/step -
+accuracy: 0.8740 - loss: 0.9302 - val\_accuracy: 0.8862 - val\_loss: 0.8777
+Epoch 8/10
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{7s} 4ms/step -
+accuracy: 0.8740 - loss: 0.9237 - val\_accuracy: 0.8867 - val\_loss: 0.8824
+Epoch 9/10
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{8s} 4ms/step -
+accuracy: 0.8748 - loss: 0.9181 - val\_accuracy: 0.8798 - val\_loss: 0.8897
+Epoch 10/10
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{7s} 4ms/step -
+accuracy: 0.8780 - loss: 0.9016 - val\_accuracy: 0.8902 - val\_loss: 0.8555
+313/313 - 1s - 2ms/step - accuracy: 0.8902 - loss: 0.8555
+Test accuracy with L1 regularization: 0.8902
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{4}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Define the model with L2 regularization}
+\PY{n}{model\PYZus{}l2} \PY{o}{=} \PY{n}{keras}\PY{o}{.}\PY{n}{Sequential}\PY{p}{(}\PY{p}{[}
+    \PY{n}{keras}\PY{o}{.}\PY{n}{layers}\PY{o}{.}\PY{n}{Flatten}\PY{p}{(}\PY{n}{input\PYZus{}shape}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{28}\PY{p}{,} \PY{l+m+mi}{28}\PY{p}{)}\PY{p}{)}\PY{p}{,}  \PY{c+c1}{\PYZsh{} Flatten the 28x28 images into a 1D array}
+    \PY{n}{keras}\PY{o}{.}\PY{n}{layers}\PY{o}{.}\PY{n}{Dense}\PY{p}{(}\PY{l+m+mi}{128}\PY{p}{,} \PY{n}{activation}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{relu}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{kernel\PYZus{}regularizer}\PY{o}{=}\PY{n}{l2}\PY{p}{(}\PY{l+m+mf}{0.01}\PY{p}{)}\PY{p}{)}\PY{p}{,}  \PY{c+c1}{\PYZsh{} L2 regularization}
+    \PY{n}{keras}\PY{o}{.}\PY{n}{layers}\PY{o}{.}\PY{n}{Dense}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,} \PY{n}{activation}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{softmax}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}  \PY{c+c1}{\PYZsh{} Output layer with 10 neurons (for 10 classes)}
+\PY{p}{]}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Compile the model}
+\PY{n}{model\PYZus{}l2}\PY{o}{.}\PY{n}{compile}\PY{p}{(}
+    \PY{n}{optimizer}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{adam}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+    \PY{n}{loss}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{sparse\PYZus{}categorical\PYZus{}crossentropy}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+    \PY{n}{metrics}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{accuracy}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Train the model}
+\PY{n}{history\PYZus{}l2} \PY{o}{=} \PY{n}{model\PYZus{}l2}\PY{o}{.}\PY{n}{fit}\PY{p}{(}
+    \PY{n}{x\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{,}
+    \PY{n}{epochs}\PY{o}{=}\PY{l+m+mi}{10}\PY{p}{,}
+    \PY{n}{validation\PYZus{}data}\PY{o}{=}\PY{p}{(}\PY{n}{x\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}test}\PY{p}{)}\PY{p}{,}
+    \PY{n}{batch\PYZus{}size}\PY{o}{=}\PY{l+m+mi}{32}
+\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Evaluate the model on test data}
+\PY{n}{test\PYZus{}loss\PYZus{}l2}\PY{p}{,} \PY{n}{test\PYZus{}acc\PYZus{}l2} \PY{o}{=} \PY{n}{model\PYZus{}l2}\PY{o}{.}\PY{n}{evaluate}\PY{p}{(}\PY{n}{x\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}test}\PY{p}{,} \PY{n}{verbose}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Print test accuracy}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Test accuracy with L2 regularization: }\PY{l+s+si}{\PYZob{}}\PY{n}{test\PYZus{}acc\PYZus{}l2}\PY{l+s+si}{:}\PY{l+s+s2}{.4f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Epoch 1/10
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{4s} 2ms/step -
+accuracy: 0.8593 - loss: 0.9630 - val\_accuracy: 0.9342 - val\_loss: 0.3940
+Epoch 2/10
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{3s} 2ms/step -
+accuracy: 0.9271 - loss: 0.4064 - val\_accuracy: 0.9383 - val\_loss: 0.3718
+Epoch 3/10
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{3s} 2ms/step -
+accuracy: 0.9362 - loss: 0.3645 - val\_accuracy: 0.9473 - val\_loss: 0.3246
+Epoch 4/10
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{3s} 2ms/step -
+accuracy: 0.9418 - loss: 0.3387 - val\_accuracy: 0.9524 - val\_loss: 0.3091
+Epoch 5/10
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{3s} 1ms/step -
+accuracy: 0.9455 - loss: 0.3196 - val\_accuracy: 0.9441 - val\_loss: 0.3179
+Epoch 6/10
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{3s} 2ms/step -
+accuracy: 0.9475 - loss: 0.3066 - val\_accuracy: 0.9562 - val\_loss: 0.2856
+Epoch 7/10
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{5s} 3ms/step -
+accuracy: 0.9493 - loss: 0.3009 - val\_accuracy: 0.9505 - val\_loss: 0.2941
+Epoch 8/10
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{8s} 4ms/step -
+accuracy: 0.9527 - loss: 0.2870 - val\_accuracy: 0.9525 - val\_loss: 0.2801
+Epoch 9/10
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{7s} 4ms/step -
+accuracy: 0.9528 - loss: 0.2838 - val\_accuracy: 0.9584 - val\_loss: 0.2651
+Epoch 10/10
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{6s} 3ms/step -
+accuracy: 0.9528 - loss: 0.2811 - val\_accuracy: 0.9351 - val\_loss: 0.3362
+313/313 - 0s - 1ms/step - accuracy: 0.9351 - loss: 0.3362
+Test accuracy with L2 regularization: 0.9351
+    \end{Verbatim}
+
+    \subparagraph{L2 Performs better than L1
+regularization}\label{l2-performs-better-than-l1-regularization}
+
+    \subparagraph{Combine L1 and L2 (Elastic
+Net)}\label{combine-l1-and-l2-elastic-net}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{5}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Import the correct function}
+\PY{k+kn}{from} \PY{n+nn}{tensorflow}\PY{n+nn}{.}\PY{n+nn}{keras}\PY{n+nn}{.}\PY{n+nn}{regularizers} \PY{k+kn}{import} \PY{n}{l1\PYZus{}l2}  
+
+\PY{c+c1}{\PYZsh{} Define a model with L1 + L2 regularization (Elastic Net)}
+\PY{n}{model\PYZus{}l1\PYZus{}l2\PYZus{}combined} \PY{o}{=} \PY{n}{keras}\PY{o}{.}\PY{n}{Sequential}\PY{p}{(}\PY{p}{[}
+    \PY{n}{keras}\PY{o}{.}\PY{n}{layers}\PY{o}{.}\PY{n}{Flatten}\PY{p}{(}\PY{n}{input\PYZus{}shape}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{28}\PY{p}{,} \PY{l+m+mi}{28}\PY{p}{)}\PY{p}{)}\PY{p}{,}  \PY{c+c1}{\PYZsh{} Flatten the 28x28 images into a 1D array}
+    \PY{n}{keras}\PY{o}{.}\PY{n}{layers}\PY{o}{.}\PY{n}{Dense}\PY{p}{(}\PY{l+m+mi}{128}\PY{p}{,} \PY{n}{activation}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{relu}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} 
+                       \PY{n}{kernel\PYZus{}regularizer}\PY{o}{=}\PY{n}{l1\PYZus{}l2}\PY{p}{(}\PY{n}{l1}\PY{o}{=}\PY{l+m+mf}{0.01}\PY{p}{,} \PY{n}{l2}\PY{o}{=}\PY{l+m+mf}{0.01}\PY{p}{)}\PY{p}{)}\PY{p}{,}  \PY{c+c1}{\PYZsh{} L1 + L2 regularization}
+    \PY{n}{keras}\PY{o}{.}\PY{n}{layers}\PY{o}{.}\PY{n}{Dense}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,} \PY{n}{activation}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{softmax}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}  \PY{c+c1}{\PYZsh{} Output layer with 10 neurons (for 10 classes)}
+\PY{p}{]}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Compile the model}
+\PY{n}{model\PYZus{}l1\PYZus{}l2\PYZus{}combined}\PY{o}{.}\PY{n}{compile}\PY{p}{(}
+    \PY{n}{optimizer}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{adam}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+    \PY{n}{loss}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{sparse\PYZus{}categorical\PYZus{}crossentropy}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+    \PY{n}{metrics}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{accuracy}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Train the model}
+\PY{n}{history\PYZus{}l1\PYZus{}l2\PYZus{}combined} \PY{o}{=} \PY{n}{model\PYZus{}l1\PYZus{}l2\PYZus{}combined}\PY{o}{.}\PY{n}{fit}\PY{p}{(}
+    \PY{n}{x\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{,}
+    \PY{n}{epochs}\PY{o}{=}\PY{l+m+mi}{10}\PY{p}{,}
+    \PY{n}{validation\PYZus{}data}\PY{o}{=}\PY{p}{(}\PY{n}{x\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}test}\PY{p}{)}\PY{p}{,}
+    \PY{n}{batch\PYZus{}size}\PY{o}{=}\PY{l+m+mi}{32}
+\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Evaluate the model}
+\PY{n}{test\PYZus{}loss\PYZus{}l1\PYZus{}l2\PYZus{}combined}\PY{p}{,} \PY{n}{test\PYZus{}acc\PYZus{}l1\PYZus{}l2\PYZus{}combined} \PY{o}{=} \PY{n}{model\PYZus{}l1\PYZus{}l2\PYZus{}combined}\PY{o}{.}\PY{n}{evaluate}\PY{p}{(}\PY{n}{x\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}test}\PY{p}{,} \PY{n}{verbose}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Print test accuracy}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Test accuracy with L1 + L2 (Elastic Net) regularization: }\PY{l+s+si}{\PYZob{}}\PY{n}{test\PYZus{}acc\PYZus{}l1\PYZus{}l2\PYZus{}combined}\PY{l+s+si}{:}\PY{l+s+s2}{.4f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Epoch 1/10
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{4s} 2ms/step -
+accuracy: 0.7581 - loss: 5.1172 - val\_accuracy: 0.8304 - val\_loss: 1.2661
+Epoch 2/10
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{3s} 2ms/step -
+accuracy: 0.8495 - loss: 1.1865 - val\_accuracy: 0.8554 - val\_loss: 1.0835
+Epoch 3/10
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{6s} 3ms/step -
+accuracy: 0.8559 - loss: 1.0899 - val\_accuracy: 0.8691 - val\_loss: 1.0149
+Epoch 4/10
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{8s} 4ms/step -
+accuracy: 0.8634 - loss: 1.0303 - val\_accuracy: 0.8761 - val\_loss: 0.9565
+Epoch 5/10
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{7s} 4ms/step -
+accuracy: 0.8666 - loss: 0.9908 - val\_accuracy: 0.8567 - val\_loss: 0.9802
+Epoch 6/10
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{7s} 4ms/step -
+accuracy: 0.8692 - loss: 0.9614 - val\_accuracy: 0.8814 - val\_loss: 0.9177
+Epoch 7/10
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{8s} 4ms/step -
+accuracy: 0.8708 - loss: 0.9445 - val\_accuracy: 0.8877 - val\_loss: 0.8950
+Epoch 8/10
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{8s} 4ms/step -
+accuracy: 0.8719 - loss: 0.9423 - val\_accuracy: 0.8775 - val\_loss: 0.9235
+Epoch 9/10
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{3s} 2ms/step -
+accuracy: 0.8743 - loss: 0.9219 - val\_accuracy: 0.8949 - val\_loss: 0.8571
+Epoch 10/10
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{5s} 2ms/step -
+accuracy: 0.8810 - loss: 0.8986 - val\_accuracy: 0.8954 - val\_loss: 0.8441
+313/313 - 0s - 1ms/step - accuracy: 0.8954 - loss: 0.8441
+Test accuracy with L1 + L2 (Elastic Net) regularization: 0.8954
+    \end{Verbatim}
+
+    Analysis of L1 + L2 (Elastic Net) Regularization Results Training
+Accuracy: 88.10\%
+
+Validation Accuracy: 89.54\%
+
+Training Loss: 0.8986
+
+Validation Loss: 0.8441
+
+Observations: Better generalization than using L1 alone but still lower
+than L2 alone (95.59\%).
+
+Validation accuracy improved compared to L1, but still lower than L2.
+Higher loss compared to L2, which suggests L1 is shrinking too many
+weights aggressively.
+
+Conclusion: L2 regularization alone gave the best performance so far,
+but Elastic Net might be useful when feature selection is needed.
+
+    \subparagraph{Implement Dropout
+Regularization}\label{implement-dropout-regularization}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{6}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Define a model with Dropout regularization}
+\PY{n}{model\PYZus{}dropout} \PY{o}{=} \PY{n}{keras}\PY{o}{.}\PY{n}{Sequential}\PY{p}{(}\PY{p}{[}
+    \PY{n}{keras}\PY{o}{.}\PY{n}{layers}\PY{o}{.}\PY{n}{Flatten}\PY{p}{(}\PY{n}{input\PYZus{}shape}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{28}\PY{p}{,} \PY{l+m+mi}{28}\PY{p}{)}\PY{p}{)}\PY{p}{,}  \PY{c+c1}{\PYZsh{} Flatten the 28x28 images into a 1D array}
+    \PY{n}{keras}\PY{o}{.}\PY{n}{layers}\PY{o}{.}\PY{n}{Dense}\PY{p}{(}\PY{l+m+mi}{128}\PY{p}{,} \PY{n}{activation}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{relu}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{,}  \PY{c+c1}{\PYZsh{} Fully connected layer with ReLU activation}
+    \PY{n}{keras}\PY{o}{.}\PY{n}{layers}\PY{o}{.}\PY{n}{Dropout}\PY{p}{(}\PY{l+m+mf}{0.5}\PY{p}{)}\PY{p}{,}  \PY{c+c1}{\PYZsh{} Dropout layer with 50\PYZpc{} dropout rate}
+    \PY{n}{keras}\PY{o}{.}\PY{n}{layers}\PY{o}{.}\PY{n}{Dense}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,} \PY{n}{activation}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{softmax}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}  \PY{c+c1}{\PYZsh{} Output layer with 10 neurons (for 10 classes)}
+\PY{p}{]}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Compile the model}
+\PY{n}{model\PYZus{}dropout}\PY{o}{.}\PY{n}{compile}\PY{p}{(}
+    \PY{n}{optimizer}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{adam}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+    \PY{n}{loss}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{sparse\PYZus{}categorical\PYZus{}crossentropy}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+    \PY{n}{metrics}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{accuracy}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Train the model}
+\PY{n}{history\PYZus{}dropout} \PY{o}{=} \PY{n}{model\PYZus{}dropout}\PY{o}{.}\PY{n}{fit}\PY{p}{(}
+    \PY{n}{x\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{,}
+    \PY{n}{epochs}\PY{o}{=}\PY{l+m+mi}{10}\PY{p}{,}
+    \PY{n}{validation\PYZus{}data}\PY{o}{=}\PY{p}{(}\PY{n}{x\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}test}\PY{p}{)}\PY{p}{,}
+    \PY{n}{batch\PYZus{}size}\PY{o}{=}\PY{l+m+mi}{32}
+\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Evaluate the model}
+\PY{n}{test\PYZus{}loss\PYZus{}dropout}\PY{p}{,} \PY{n}{test\PYZus{}acc\PYZus{}dropout} \PY{o}{=} \PY{n}{model\PYZus{}dropout}\PY{o}{.}\PY{n}{evaluate}\PY{p}{(}\PY{n}{x\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}test}\PY{p}{,} \PY{n}{verbose}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Print test accuracy}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Test accuracy with Dropout regularization: }\PY{l+s+si}{\PYZob{}}\PY{n}{test\PYZus{}acc\PYZus{}dropout}\PY{l+s+si}{:}\PY{l+s+s2}{.4f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Epoch 1/10
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{4s} 2ms/step -
+accuracy: 0.8138 - loss: 0.6104 - val\_accuracy: 0.9520 - val\_loss: 0.1590
+Epoch 2/10
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{3s} 2ms/step -
+accuracy: 0.9301 - loss: 0.2376 - val\_accuracy: 0.9613 - val\_loss: 0.1287
+Epoch 3/10
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{3s} 1ms/step -
+accuracy: 0.9443 - loss: 0.1883 - val\_accuracy: 0.9678 - val\_loss: 0.1112
+Epoch 4/10
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{3s} 1ms/step -
+accuracy: 0.9514 - loss: 0.1609 - val\_accuracy: 0.9677 - val\_loss: 0.1049
+Epoch 5/10
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{3s} 2ms/step -
+accuracy: 0.9525 - loss: 0.1565 - val\_accuracy: 0.9695 - val\_loss: 0.0983
+Epoch 6/10
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{3s} 1ms/step -
+accuracy: 0.9578 - loss: 0.1400 - val\_accuracy: 0.9732 - val\_loss: 0.0895
+Epoch 7/10
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{3s} 1ms/step -
+accuracy: 0.9564 - loss: 0.1401 - val\_accuracy: 0.9762 - val\_loss: 0.0851
+Epoch 8/10
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{3s} 1ms/step -
+accuracy: 0.9620 - loss: 0.1217 - val\_accuracy: 0.9753 - val\_loss: 0.0811
+Epoch 9/10
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{3s} 1ms/step -
+accuracy: 0.9622 - loss: 0.1221 - val\_accuracy: 0.9733 - val\_loss: 0.0877
+Epoch 10/10
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{4s} 2ms/step -
+accuracy: 0.9638 - loss: 0.1127 - val\_accuracy: 0.9767 - val\_loss: 0.0836
+313/313 - 1s - 2ms/step - accuracy: 0.9767 - loss: 0.0836
+Test accuracy with Dropout regularization: 0.9767
+    \end{Verbatim}
+
+    Analysis of Dropout Regularization Results
+
+Training Accuracy: 96.38\%
+
+Validation Accuracy: 97.67\%
+
+Training Loss: 0.1127
+
+Validation Loss: 0.0836
+
+Observations: Dropout significantly reduced overfitting compared to the
+baseline model. The validation accuracy is very close to training
+accuracy.
+
+Performance is better than L1, L2, and Elastic Net, achieving one of the
+highest test accuracies so far.
+
+Dropout introduces some randomness, which can slightly slow down
+training but improves generalization.
+
+Conclusion: Dropout has been the most effective regularization technique
+so far, improving generalization while maintaining high accuracy.
+
+    
+
+    \subparagraph{Implement Early Stopping}\label{implement-early-stopping}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{7}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Import EarlyStopping callback}
+\PY{k+kn}{from} \PY{n+nn}{tensorflow}\PY{n+nn}{.}\PY{n+nn}{keras}\PY{n+nn}{.}\PY{n+nn}{callbacks} \PY{k+kn}{import} \PY{n}{EarlyStopping}
+
+\PY{c+c1}{\PYZsh{} Define a model with Dropout regularization}
+\PY{n}{model\PYZus{}early\PYZus{}stopping} \PY{o}{=} \PY{n}{keras}\PY{o}{.}\PY{n}{Sequential}\PY{p}{(}\PY{p}{[}
+    \PY{n}{keras}\PY{o}{.}\PY{n}{layers}\PY{o}{.}\PY{n}{Flatten}\PY{p}{(}\PY{n}{input\PYZus{}shape}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{28}\PY{p}{,} \PY{l+m+mi}{28}\PY{p}{)}\PY{p}{)}\PY{p}{,}  \PY{c+c1}{\PYZsh{} Flatten the 28x28 images into a 1D array}
+    \PY{n}{keras}\PY{o}{.}\PY{n}{layers}\PY{o}{.}\PY{n}{Dense}\PY{p}{(}\PY{l+m+mi}{128}\PY{p}{,} \PY{n}{activation}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{relu}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{,}  \PY{c+c1}{\PYZsh{} Fully connected layer with ReLU activation}
+    \PY{n}{keras}\PY{o}{.}\PY{n}{layers}\PY{o}{.}\PY{n}{Dropout}\PY{p}{(}\PY{l+m+mf}{0.5}\PY{p}{)}\PY{p}{,}  \PY{c+c1}{\PYZsh{} Dropout layer with 50\PYZpc{} dropout rate}
+    \PY{n}{keras}\PY{o}{.}\PY{n}{layers}\PY{o}{.}\PY{n}{Dense}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,} \PY{n}{activation}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{softmax}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}  \PY{c+c1}{\PYZsh{} Output layer with 10 neurons (for 10 classes)}
+\PY{p}{]}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Compile the model}
+\PY{n}{model\PYZus{}early\PYZus{}stopping}\PY{o}{.}\PY{n}{compile}\PY{p}{(}
+    \PY{n}{optimizer}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{adam}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+    \PY{n}{loss}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{sparse\PYZus{}categorical\PYZus{}crossentropy}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+    \PY{n}{metrics}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{accuracy}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Define EarlyStopping callback}
+\PY{n}{early\PYZus{}stopping} \PY{o}{=} \PY{n}{EarlyStopping}\PY{p}{(}
+    \PY{n}{monitor}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{val\PYZus{}loss}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}  \PY{c+c1}{\PYZsh{} Monitor validation loss}
+    \PY{n}{patience}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{,}  \PY{c+c1}{\PYZsh{} Stop training if validation loss doesn\PYZsq{}t improve for 3 epochs}
+    \PY{n}{restore\PYZus{}best\PYZus{}weights}\PY{o}{=}\PY{k+kc}{True}  \PY{c+c1}{\PYZsh{} Restore best model weights after stopping}
+\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Train the model with EarlyStopping}
+\PY{n}{history\PYZus{}early\PYZus{}stopping} \PY{o}{=} \PY{n}{model\PYZus{}early\PYZus{}stopping}\PY{o}{.}\PY{n}{fit}\PY{p}{(}
+    \PY{n}{x\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{,}
+    \PY{n}{epochs}\PY{o}{=}\PY{l+m+mi}{20}\PY{p}{,}  \PY{c+c1}{\PYZsh{} Set maximum number of epochs}
+    \PY{n}{validation\PYZus{}data}\PY{o}{=}\PY{p}{(}\PY{n}{x\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}test}\PY{p}{)}\PY{p}{,}
+    \PY{n}{batch\PYZus{}size}\PY{o}{=}\PY{l+m+mi}{32}\PY{p}{,}
+    \PY{n}{callbacks}\PY{o}{=}\PY{p}{[}\PY{n}{early\PYZus{}stopping}\PY{p}{]}  \PY{c+c1}{\PYZsh{} Apply EarlyStopping callback}
+\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Evaluate the model}
+\PY{n}{test\PYZus{}loss\PYZus{}early\PYZus{}stopping}\PY{p}{,} \PY{n}{test\PYZus{}acc\PYZus{}early\PYZus{}stopping} \PY{o}{=} \PY{n}{model\PYZus{}early\PYZus{}stopping}\PY{o}{.}\PY{n}{evaluate}\PY{p}{(}\PY{n}{x\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}test}\PY{p}{,} \PY{n}{verbose}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Print test accuracy}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Test accuracy with Dropout + Early Stopping: }\PY{l+s+si}{\PYZob{}}\PY{n}{test\PYZus{}acc\PYZus{}early\PYZus{}stopping}\PY{l+s+si}{:}\PY{l+s+s2}{.4f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Epoch 1/20
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{5s} 2ms/step -
+accuracy: 0.8141 - loss: 0.6137 - val\_accuracy: 0.9481 - val\_loss: 0.1711
+Epoch 2/20
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{3s} 2ms/step -
+accuracy: 0.9310 - loss: 0.2372 - val\_accuracy: 0.9611 - val\_loss: 0.1275
+Epoch 3/20
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{5s} 3ms/step -
+accuracy: 0.9401 - loss: 0.1966 - val\_accuracy: 0.9653 - val\_loss: 0.1129
+Epoch 4/20
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{7s} 4ms/step -
+accuracy: 0.9499 - loss: 0.1670 - val\_accuracy: 0.9695 - val\_loss: 0.1050
+Epoch 5/20
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{7s} 4ms/step -
+accuracy: 0.9544 - loss: 0.1509 - val\_accuracy: 0.9710 - val\_loss: 0.0965
+Epoch 6/20
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{7s} 4ms/step -
+accuracy: 0.9558 - loss: 0.1427 - val\_accuracy: 0.9727 - val\_loss: 0.0901
+Epoch 7/20
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{7s} 4ms/step -
+accuracy: 0.9595 - loss: 0.1304 - val\_accuracy: 0.9749 - val\_loss: 0.0892
+Epoch 8/20
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{7s} 3ms/step -
+accuracy: 0.9602 - loss: 0.1266 - val\_accuracy: 0.9745 - val\_loss: 0.0893
+Epoch 9/20
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{3s} 2ms/step -
+accuracy: 0.9623 - loss: 0.1224 - val\_accuracy: 0.9733 - val\_loss: 0.0907
+Epoch 10/20
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{4s} 2ms/step -
+accuracy: 0.9629 - loss: 0.1160 - val\_accuracy: 0.9761 - val\_loss: 0.0883
+Epoch 11/20
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{7s} 4ms/step -
+accuracy: 0.9648 - loss: 0.1114 - val\_accuracy: 0.9754 - val\_loss: 0.0900
+Epoch 12/20
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{7s} 4ms/step -
+accuracy: 0.9668 - loss: 0.1069 - val\_accuracy: 0.9760 - val\_loss: 0.0940
+Epoch 13/20
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{8s} 4ms/step -
+accuracy: 0.9666 - loss: 0.1082 - val\_accuracy: 0.9760 - val\_loss: 0.0894
+313/313 - 1s - 2ms/step - accuracy: 0.9761 - loss: 0.0883
+Test accuracy with Dropout + Early Stopping: 0.9761
+    \end{Verbatim}
+
+    Analysis of Dropout + Early Stopping Results
+
+Training Accuracy: 96.66\%
+
+Validation Accuracy: 97.60\%
+
+Training Loss: 0.1082
+
+Validation Loss: 0.0894
+
+Stopped at Epoch: 13 (before 20, preventing overfitting)
+
+Observations: Early Stopping prevented unnecessary training, stopping at
+epoch 13 when validation loss stopped improving.
+
+Performance is almost identical to Dropout alone, but faster training
+(no wasted epochs).
+
+Best generalization so far! The accuracy is high, and overfitting is
+minimal. Conclusion: Dropout + Early Stopping is the best combination
+yet! It balances high accuracy with efficient training
+
+    
+
+    \subparagraph{Implement Data
+Augmentation}\label{implement-data-augmentation}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{8}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Import ImageDataGenerator for data augmentation}
+\PY{k+kn}{from} \PY{n+nn}{tensorflow}\PY{n+nn}{.}\PY{n+nn}{keras}\PY{n+nn}{.}\PY{n+nn}{preprocessing}\PY{n+nn}{.}\PY{n+nn}{image} \PY{k+kn}{import} \PY{n}{ImageDataGenerator}
+
+\PY{c+c1}{\PYZsh{} Define data augmentation parameters}
+\PY{n}{datagen} \PY{o}{=} \PY{n}{ImageDataGenerator}\PY{p}{(}
+    \PY{n}{rotation\PYZus{}range}\PY{o}{=}\PY{l+m+mi}{10}\PY{p}{,}        \PY{c+c1}{\PYZsh{} Rotate images by up to 10 degrees}
+    \PY{n}{width\PYZus{}shift\PYZus{}range}\PY{o}{=}\PY{l+m+mf}{0.1}\PY{p}{,}    \PY{c+c1}{\PYZsh{} Shift images horizontally by up to 10\PYZpc{} of width}
+    \PY{n}{height\PYZus{}shift\PYZus{}range}\PY{o}{=}\PY{l+m+mf}{0.1}\PY{p}{,}   \PY{c+c1}{\PYZsh{} Shift images vertically by up to 10\PYZpc{} of height}
+    \PY{n}{zoom\PYZus{}range}\PY{o}{=}\PY{l+m+mf}{0.1}            \PY{c+c1}{\PYZsh{} Zoom in/out by up to 10\PYZpc{}}
+\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Define the neural network model}
+\PY{n}{model\PYZus{}data\PYZus{}aug} \PY{o}{=} \PY{n}{keras}\PY{o}{.}\PY{n}{Sequential}\PY{p}{(}\PY{p}{[}
+    \PY{n}{keras}\PY{o}{.}\PY{n}{layers}\PY{o}{.}\PY{n}{Flatten}\PY{p}{(}\PY{n}{input\PYZus{}shape}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{28}\PY{p}{,} \PY{l+m+mi}{28}\PY{p}{)}\PY{p}{)}\PY{p}{,}  \PY{c+c1}{\PYZsh{} Flatten 28x28 images into a 1D array}
+    \PY{n}{keras}\PY{o}{.}\PY{n}{layers}\PY{o}{.}\PY{n}{Dense}\PY{p}{(}\PY{l+m+mi}{128}\PY{p}{,} \PY{n}{activation}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{relu}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{,}  \PY{c+c1}{\PYZsh{} Fully connected layer with ReLU activation}
+    \PY{n}{keras}\PY{o}{.}\PY{n}{layers}\PY{o}{.}\PY{n}{Dropout}\PY{p}{(}\PY{l+m+mf}{0.5}\PY{p}{)}\PY{p}{,}  \PY{c+c1}{\PYZsh{} Dropout layer with 50\PYZpc{} dropout rate}
+    \PY{n}{keras}\PY{o}{.}\PY{n}{layers}\PY{o}{.}\PY{n}{Dense}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,} \PY{n}{activation}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{softmax}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}  \PY{c+c1}{\PYZsh{} Output layer with 10 neurons (for 10 classes)}
+\PY{p}{]}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Compile the model}
+\PY{n}{model\PYZus{}data\PYZus{}aug}\PY{o}{.}\PY{n}{compile}\PY{p}{(}
+    \PY{n}{optimizer}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{adam}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+    \PY{n}{loss}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{sparse\PYZus{}categorical\PYZus{}crossentropy}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+    \PY{n}{metrics}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{accuracy}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Create the augmented training data generator}
+\PY{n}{train\PYZus{}generator} \PY{o}{=} \PY{n}{datagen}\PY{o}{.}\PY{n}{flow}\PY{p}{(}
+    \PY{n}{x\PYZus{}train}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{28}\PY{p}{,} \PY{l+m+mi}{28}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{,}  \PY{c+c1}{\PYZsh{} Reshape input images to (batch\PYZus{}size, 28, 28, 1)}
+    \PY{n}{y\PYZus{}train}\PY{p}{,}
+    \PY{n}{batch\PYZus{}size}\PY{o}{=}\PY{l+m+mi}{32}
+\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Train the model with data augmentation}
+\PY{n}{history\PYZus{}data\PYZus{}aug} \PY{o}{=} \PY{n}{model\PYZus{}data\PYZus{}aug}\PY{o}{.}\PY{n}{fit}\PY{p}{(}
+    \PY{n}{train\PYZus{}generator}\PY{p}{,}  \PY{c+c1}{\PYZsh{} Use augmented data for training}
+    \PY{n}{epochs}\PY{o}{=}\PY{l+m+mi}{10}\PY{p}{,}
+    \PY{n}{validation\PYZus{}data}\PY{o}{=}\PY{p}{(}\PY{n}{x\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}test}\PY{p}{)}
+\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Evaluate the model}
+\PY{n}{test\PYZus{}loss\PYZus{}data\PYZus{}aug}\PY{p}{,} \PY{n}{test\PYZus{}acc\PYZus{}data\PYZus{}aug} \PY{o}{=} \PY{n}{model\PYZus{}data\PYZus{}aug}\PY{o}{.}\PY{n}{evaluate}\PY{p}{(}\PY{n}{x\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}test}\PY{p}{,} \PY{n}{verbose}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Print test accuracy}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Test accuracy with Data Augmentation: }\PY{l+s+si}{\PYZob{}}\PY{n}{test\PYZus{}acc\PYZus{}data\PYZus{}aug}\PY{l+s+si}{:}\PY{l+s+s2}{.4f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+c:\textbackslash{}Users\textbackslash{}eakes\textbackslash{}AppData\textbackslash{}Local\textbackslash{}Programs\textbackslash{}Python\textbackslash{}Python311\textbackslash{}Lib\textbackslash{}site-
+packages\textbackslash{}keras\textbackslash{}src\textbackslash{}trainers\textbackslash{}data\_adapters\textbackslash{}py\_dataset\_adapter.py:121:
+UserWarning: Your `PyDataset` class should call `super().\_\_init\_\_(**kwargs)` in
+its constructor. `**kwargs` can include `workers`, `use\_multiprocessing`,
+`max\_queue\_size`. Do not pass these arguments to `fit()`, as they will be
+ignored.
+  self.\_warn\_if\_super\_not\_called()
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Epoch 1/10
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{26s} 13ms/step -
+accuracy: 0.6132 - loss: 1.1796 - val\_accuracy: 0.9384 - val\_loss: 0.2413
+Epoch 2/10
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{14s} 7ms/step -
+accuracy: 0.8296 - loss: 0.5560 - val\_accuracy: 0.9551 - val\_loss: 0.1659
+Epoch 3/10
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{10s} 6ms/step -
+accuracy: 0.8540 - loss: 0.4727 - val\_accuracy: 0.9620 - val\_loss: 0.1344
+Epoch 4/10
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{11s} 6ms/step -
+accuracy: 0.8663 - loss: 0.4399 - val\_accuracy: 0.9646 - val\_loss: 0.1240
+Epoch 5/10
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{11s} 6ms/step -
+accuracy: 0.8735 - loss: 0.4199 - val\_accuracy: 0.9650 - val\_loss: 0.1096
+Epoch 6/10
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{11s} 6ms/step -
+accuracy: 0.8778 - loss: 0.4067 - val\_accuracy: 0.9670 - val\_loss: 0.1046
+Epoch 7/10
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{11s} 6ms/step -
+accuracy: 0.8844 - loss: 0.3845 - val\_accuracy: 0.9709 - val\_loss: 0.1018
+Epoch 8/10
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{11s} 6ms/step -
+accuracy: 0.8842 - loss: 0.3837 - val\_accuracy: 0.9677 - val\_loss: 0.1097
+Epoch 9/10
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{12s} 6ms/step -
+accuracy: 0.8913 - loss: 0.3673 - val\_accuracy: 0.9740 - val\_loss: 0.0957
+Epoch 10/10
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{12s} 6ms/step -
+accuracy: 0.8896 - loss: 0.3606 - val\_accuracy: 0.9728 - val\_loss: 0.0928
+313/313 - 0s - 901us/step - accuracy: 0.9728 - loss: 0.0928
+Test accuracy with Data Augmentation: 0.9728
+    \end{Verbatim}
+
+    Analysis of Data Augmentation Results
+
+Training Accuracy: 88.96\%
+
+Validation Accuracy: 97.28\%
+
+Training Loss: 0.3606
+
+Validation Loss: 0.0928
+
+Observations:
+
+-Better generalization than the baseline model, preventing overfitting
+by exposing the model to slightly altered images. -High validation
+accuracy (97.28\%), close to Dropout + Early Stopping (97.60\%). -Slower
+training due to real-time image transformations.
+
+-Conclusion: Data Augmentation improved generalization but took more
+time to train. It is useful when working with small datasets or wanting
+to improve model robustness.
+
+    
+
+    \subparagraph{Combine Regularization
+Techniques}\label{combine-regularization-techniques}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{9}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Define the model combining L2 Regularization, Dropout, and Data Augmentation}
+\PY{n}{model\PYZus{}combined} \PY{o}{=} \PY{n}{keras}\PY{o}{.}\PY{n}{Sequential}\PY{p}{(}\PY{p}{[}
+    \PY{n}{keras}\PY{o}{.}\PY{n}{layers}\PY{o}{.}\PY{n}{Flatten}\PY{p}{(}\PY{n}{input\PYZus{}shape}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{28}\PY{p}{,} \PY{l+m+mi}{28}\PY{p}{)}\PY{p}{)}\PY{p}{,}  \PY{c+c1}{\PYZsh{} Flatten 28x28 images into a 1D array}
+    \PY{n}{keras}\PY{o}{.}\PY{n}{layers}\PY{o}{.}\PY{n}{Dense}\PY{p}{(}\PY{l+m+mi}{128}\PY{p}{,} \PY{n}{activation}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{relu}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{kernel\PYZus{}regularizer}\PY{o}{=}\PY{n}{l2}\PY{p}{(}\PY{l+m+mf}{0.01}\PY{p}{)}\PY{p}{)}\PY{p}{,}  \PY{c+c1}{\PYZsh{} L2 regularization}
+    \PY{n}{keras}\PY{o}{.}\PY{n}{layers}\PY{o}{.}\PY{n}{Dropout}\PY{p}{(}\PY{l+m+mf}{0.5}\PY{p}{)}\PY{p}{,}  \PY{c+c1}{\PYZsh{} Dropout layer with 50\PYZpc{} dropout rate}
+    \PY{n}{keras}\PY{o}{.}\PY{n}{layers}\PY{o}{.}\PY{n}{Dense}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,} \PY{n}{activation}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{softmax}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}  \PY{c+c1}{\PYZsh{} Output layer with 10 neurons (for 10 classes)}
+\PY{p}{]}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Compile the model}
+\PY{n}{model\PYZus{}combined}\PY{o}{.}\PY{n}{compile}\PY{p}{(}
+    \PY{n}{optimizer}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{adam}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+    \PY{n}{loss}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{sparse\PYZus{}categorical\PYZus{}crossentropy}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+    \PY{n}{metrics}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{accuracy}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Create the augmented training data generator}
+\PY{n}{train\PYZus{}generator\PYZus{}combined} \PY{o}{=} \PY{n}{datagen}\PY{o}{.}\PY{n}{flow}\PY{p}{(}
+    \PY{n}{x\PYZus{}train}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{28}\PY{p}{,} \PY{l+m+mi}{28}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{,}  \PY{c+c1}{\PYZsh{} Reshape input images to (batch\PYZus{}size, 28, 28, 1)}
+    \PY{n}{y\PYZus{}train}\PY{p}{,}
+    \PY{n}{batch\PYZus{}size}\PY{o}{=}\PY{l+m+mi}{32}
+\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Train the model with L2, Dropout, and Data Augmentation}
+\PY{n}{history\PYZus{}combined} \PY{o}{=} \PY{n}{model\PYZus{}combined}\PY{o}{.}\PY{n}{fit}\PY{p}{(}
+    \PY{n}{train\PYZus{}generator\PYZus{}combined}\PY{p}{,}  \PY{c+c1}{\PYZsh{} Use augmented data for training}
+    \PY{n}{epochs}\PY{o}{=}\PY{l+m+mi}{10}\PY{p}{,}
+    \PY{n}{validation\PYZus{}data}\PY{o}{=}\PY{p}{(}\PY{n}{x\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}test}\PY{p}{)}
+\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Evaluate the model}
+\PY{n}{test\PYZus{}loss\PYZus{}combined}\PY{p}{,} \PY{n}{test\PYZus{}acc\PYZus{}combined} \PY{o}{=} \PY{n}{model\PYZus{}combined}\PY{o}{.}\PY{n}{evaluate}\PY{p}{(}\PY{n}{x\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}test}\PY{p}{,} \PY{n}{verbose}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Print test accuracy}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Test accuracy with L2 + Dropout + Data Augmentation: }\PY{l+s+si}{\PYZob{}}\PY{n}{test\PYZus{}acc\PYZus{}combined}\PY{l+s+si}{:}\PY{l+s+s2}{.4f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Epoch 1/10
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+c:\textbackslash{}Users\textbackslash{}eakes\textbackslash{}AppData\textbackslash{}Local\textbackslash{}Programs\textbackslash{}Python\textbackslash{}Python311\textbackslash{}Lib\textbackslash{}site-
+packages\textbackslash{}keras\textbackslash{}src\textbackslash{}layers\textbackslash{}reshaping\textbackslash{}flatten.py:37: UserWarning: Do not pass an
+`input\_shape`/`input\_dim` argument to a layer. When using Sequential models,
+prefer using an `Input(shape)` object as the first layer in the model instead.
+  super().\_\_init\_\_(**kwargs)
+c:\textbackslash{}Users\textbackslash{}eakes\textbackslash{}AppData\textbackslash{}Local\textbackslash{}Programs\textbackslash{}Python\textbackslash{}Python311\textbackslash{}Lib\textbackslash{}site-
+packages\textbackslash{}keras\textbackslash{}src\textbackslash{}trainers\textbackslash{}data\_adapters\textbackslash{}py\_dataset\_adapter.py:121:
+UserWarning: Your `PyDataset` class should call `super().\_\_init\_\_(**kwargs)` in
+its constructor. `**kwargs` can include `workers`, `use\_multiprocessing`,
+`max\_queue\_size`. Do not pass these arguments to `fit()`, as they will be
+ignored.
+  self.\_warn\_if\_super\_not\_called()
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{11s} 6ms/step -
+accuracy: 0.5830 - loss: 1.8507 - val\_accuracy: 0.9147 - val\_loss: 0.6838
+Epoch 2/10
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{10s} 6ms/step -
+accuracy: 0.7554 - loss: 1.0648 - val\_accuracy: 0.9266 - val\_loss: 0.5901
+Epoch 3/10
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{11s} 6ms/step -
+accuracy: 0.7772 - loss: 0.9905 - val\_accuracy: 0.9386 - val\_loss: 0.5612
+Epoch 4/10
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{11s} 6ms/step -
+accuracy: 0.7898 - loss: 0.9437 - val\_accuracy: 0.9356 - val\_loss: 0.5406
+Epoch 5/10
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{11s} 6ms/step -
+accuracy: 0.7969 - loss: 0.9229 - val\_accuracy: 0.9402 - val\_loss: 0.5130
+Epoch 6/10
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{11s} 6ms/step -
+accuracy: 0.8025 - loss: 0.9097 - val\_accuracy: 0.9437 - val\_loss: 0.5011
+Epoch 7/10
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{11s} 6ms/step -
+accuracy: 0.7993 - loss: 0.9036 - val\_accuracy: 0.9402 - val\_loss: 0.5153
+Epoch 8/10
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{11s} 6ms/step -
+accuracy: 0.8008 - loss: 0.9095 - val\_accuracy: 0.9489 - val\_loss: 0.4905
+Epoch 9/10
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{11s} 6ms/step -
+accuracy: 0.8060 - loss: 0.8943 - val\_accuracy: 0.9504 - val\_loss: 0.4783
+Epoch 10/10
+\textbf{1875/1875} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{11s} 6ms/step -
+accuracy: 0.8031 - loss: 0.8965 - val\_accuracy: 0.9385 - val\_loss: 0.5153
+313/313 - 0s - 736us/step - accuracy: 0.9385 - loss: 0.5153
+Test accuracy with L2 + Dropout + Data Augmentation: 0.9385
+    \end{Verbatim}
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+\end{document}
